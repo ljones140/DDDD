@@ -18,6 +18,7 @@ require('connections.php');
 </head>
 <body>
 
+  <h1>Deny, Disrupt, Degrade and Deceive</h1>
 
 <?php
 
@@ -25,7 +26,6 @@ require('connections.php');
 if (!isset($_POST['source_text']) && !isset($_POST['catvarname!!!!'])) { //put var name in when I have it
 
 	echo '<h2>Please Enter Text to be Submitted Below</h2>';
-
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '"id="textinput">';
 	echo '<textarea rows="20" cols = "50" name="source_text" form="textinput">Enter Text Here.....</textarea>';
 	echo '<br />';
@@ -50,10 +50,18 @@ if (isset($_POST['source_text'])){
 	//echo $article_id;
 	mysqli_close($dbc);
 
-	if ($article_id >0) {
-		//display test and D buttons
-		echo '<textarea rows="20" cols = "50" name="TesttoTransform" form="textinput"></textarea>'
-	}
+	if ($article_id > 0) {
+		//display text and D buttons
+		$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+		$query = "SELECT Article_Text FROM Source_Article WHERE Article_id = $article_id";
+		$result = mysqli_query($dbc, $query);
+  		while ($row = mysqli_fetch_assoc($result)) {
+  			$text = $row['Article_Text'];
+  			$text = str_replace('\\', '', $text);
+			echo '<textarea rows="20" cols = "50" name="TesttoTransform" form="textinput">' . $text .'</textarea>';
+			mysqli_close($dbc);
+		}
+	} else echo '<h4>Error</h4>';
 }
 
 
