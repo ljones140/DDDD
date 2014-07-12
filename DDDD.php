@@ -1,5 +1,5 @@
 <?php
-require_once('connections.php');
+//require_once('connections.php');
 
 //Put refreshing header here
 
