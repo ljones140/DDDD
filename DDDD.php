@@ -23,7 +23,7 @@ require('connections.php');
 <?php
 
 //need to decide on variable names here 
-if (!isset($_POST['source_text']) && !isset($_POST['catvarname!!!!'])) { //put var name in when I have it
+if (!isset($_POST['source_text']) && !isset($_POST['d_cat'])) { 
 
 	echo '<h2>Please Enter Text to be Submitted Below</h2>';
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '"id="textinput">';
@@ -46,8 +46,6 @@ if (isset($_POST['source_text'])){
 	$query = "INSERT INTO Source_Article (Article_Text,Date_Created) VALUES ('$source_text',now())";
 	mysqli_query($dbc, $query);
 	$article_id = mysqli_insert_id($dbc);
-	//echo $query;
-	//echo $article_id;
 	mysqli_close($dbc);
 
 	if ($article_id > 0) {
@@ -64,11 +62,13 @@ if (isset($_POST['source_text'])){
 		}
 		//add buttons
 		echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '">';
-		echo '<input name="d_cat" type="submit" value="Deny"/>';
-		echo '<input name="d_cat" type="submit" value="Disrupt"/>';
-		echo '<input name="d_cat" type="submit" value="Degrade"/>';
-		echo '<input name="d_cat" type="submit" value="Deceive"/>';
+		echo '<button name="d_cat" type="submit" value="1">Deny</button>';
+		echo '<button name="d_cat" type="submit" value="2">Disrupt</button>';
+		echo '<button name="d_cat" type="submit" value="3">Degrade</button>';
+		echo '<button name="d_cat" type="submit" value="4">Deceive</button>' ;
+		echo '<input type="hidden" name="article_id" value="' . $article_id .'">';
 		echo '</form>';
+
 	} else echo '<h4>Error</h4>';
 }
 
