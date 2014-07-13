@@ -58,9 +58,17 @@ if (isset($_POST['source_text'])){
   		while ($row = mysqli_fetch_assoc($result)) {
   			$text = $row['Article_Text'];
   			$text = str_replace('\\', '', $text);
-			echo '<textarea rows="20" cols = "50" name="TesttoTransform" form="textinput">' . $text .'</textarea>';
+  			echo '<p>' . $text . '</p><br />';
+			//echo '<textarea rows="20" cols = "50" name="TesttoTransform" form="textinput">' . $text .'</textarea>';
 			mysqli_close($dbc);
 		}
+		//add buttons
+		echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '">';
+		echo '<input name="d_cat" type="submit" value="Deny"/>';
+		echo '<input name="d_cat" type="submit" value="Disrupt"/>';
+		echo '<input name="d_cat" type="submit" value="Degrade"/>';
+		echo '<input name="d_cat" type="submit" value="Deceive"/>';
+		echo '</form>';
 	} else echo '<h4>Error</h4>';
 }
 
