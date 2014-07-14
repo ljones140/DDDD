@@ -49,7 +49,7 @@ if (isset($_POST['source_text'])){
 	mysqli_close($dbc);
 
 	if ($article_id > 0) {
-		diplaytexttoprocess($article_id);
+		displaytexttoprocess($article_id);
 	} else echo '<h4>Error</h4>';
 }
 
