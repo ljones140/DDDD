@@ -23,8 +23,8 @@ require('functions.php');
 <?php
 
 
-//need to decide on variable names here 
-if (!isset($_POST['source_text']) && !isset($_POST['d_cat'])) { 
+//check to see if 1st time to the page if so diplay text ares to enter text 
+if (!isset($_POST['source_text']) && !isset($_POST['dcat_id'])) { 
 
 	echo '<h2>Please Enter Text to be Submitted Below</h2>';
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '"id="textinput">';
@@ -35,7 +35,7 @@ if (!isset($_POST['source_text']) && !isset($_POST['d_cat'])) {
 
 }
 
-//for inserting text box entered text
+//if text added then insert text to db,  display the text and the DDDD buttons
 if (isset($_POST['source_text'])){
 	$source_text = $_POST['source_text'];
 	insertsource_article($source_text);
@@ -46,8 +46,13 @@ if (isset($_POST['source_text'])){
 }
 
 
+if (isset($_POST['dcat_id']){
+	$dcat_id = $_POST['dcat_id'];
+	if ($dcat_id == 1 || $dcat_id == 2 || $dcat_id == 4) {
+        
+       	{
 
-
+}
 
 ?>
 

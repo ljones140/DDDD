@@ -33,14 +33,23 @@ function displaytexttoprocess($article_id){
 	}
 	//display buttons
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '">';
-	echo '<button name="d_cat" type="submit" value="1">Deny</button>';
-	echo '<button name="d_cat" type="submit" value="2">Disrupt</button>';
-	echo '<button name="d_cat" type="submit" value="3">Degrade</button>';
-	echo '<button name="d_cat" type="submit" value="4">Deceive</button>' ;
+	echo '<button name="dcat_id" type="submit" value="1">Deny</button>';
+	echo '<button name="dcat_id" type="submit" value="2">Disrupt</button>';
+	echo '<button name="dcat_id" type="submit" value="3">Degrade</button>';
+	echo '<button name="dcat_id" type="submit" value="4">Deceive</button>' ;
 	echo '<input type="hidden" name="article_id" value="' . $article_id .'">';
 	echo '</form>';
 
 
 }
+
+//function to calculate amount of matches in text string
+function process_matches($d_cat_id, $article_id) {
+	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	$query = "SELECT Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Data_Type_Id = 1" .
+		"AND Cat_id = $d_cat_id";
+	$result = mysqli_query($dbc, $query);
+}
+
 
 ?>
