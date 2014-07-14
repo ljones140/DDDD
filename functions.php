@@ -1,9 +1,9 @@
 <?php
 
-//functions for DDD
+//functions for DDDD
 
 //displays the text to be processed from Article_text and the D buttons
-	function displaytexttoprocess($articleid){
+	function displaytexttoprocess($article_id){
 	
 		$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		$query = "SELECT Article_Text FROM Source_Article WHERE Article_id = $article_id";
@@ -14,7 +14,7 @@
   			echo '<p>' . $text . '</p><br />';
 			mysqli_close($dbc);
 		}
-		//add buttons
+		//display buttons
 		echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '">';
 		echo '<button name="d_cat" type="submit" value="1">Deny</button>';
 		echo '<button name="d_cat" type="submit" value="2">Disrupt</button>';
