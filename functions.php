@@ -18,6 +18,7 @@ function insertsource_article($source_text){
         mysqli_close($dbc);
 }
 
+
 //displays the text to be processed from Article_text and the D buttons
 function displaytexttoprocess($article_id){
 	
