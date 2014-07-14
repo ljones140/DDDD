@@ -3,7 +3,7 @@
 //functions for DDD
 	function displaytexttoprocess($articleid){
 	
-		//display text and D buttons
+////		//display text and D buttons
 		$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		$query = "SELECT Article_Text FROM Source_Article WHERE Article_id = $article_id";
 		$result = mysqli_query($dbc, $query);
