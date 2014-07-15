@@ -3,6 +3,22 @@ require('connections.php');
 require('functions.php');
 //Put refreshing header here
 
+if (isset($_POST['dcat_id'])){
+        $dcat_id = $_POST['dcat_id'];
+
+	process_matches($dcat_id, $article_id, $text);
+
+	$page = $_SERVER['PHP_SELF'];
+ 	$sec = "5";
+	header("Refresh: $sec; url=$page");
+ 	echo "Watch the page reload itself in 5 second!";
+	echo $matches[0];
+
+
+
+}
+
+
 ?>
 
 <!doctype html>
@@ -46,13 +62,10 @@ if (isset($_POST['source_text'])){
 }
 
 
-if (isset($_POST['dcat_id']){
-	$dcat_id = $_POST['dcat_id'];
-	if ($dcat_id == 1 || $dcat_id == 2 || $dcat_id == 4) {
+ 
         
-       	{
 
-}
+
 
 ?>
 

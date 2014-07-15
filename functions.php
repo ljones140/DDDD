@@ -21,7 +21,7 @@ function insertsource_article($source_text){
 
 //displays the text to be processed from Article_text and the D buttons
 function displaytexttoprocess($article_id){
-	
+	global $text, $article_id;
 	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$query = "SELECT Article_Text FROM Source_Article WHERE Article_id = $article_id";
 	$result = mysqli_query($dbc, $query);
@@ -38,18 +38,32 @@ function displaytexttoprocess($article_id){
 	echo '<button name="dcat_id" type="submit" value="3">Degrade</button>';
 	echo '<button name="dcat_id" type="submit" value="4">Deceive</button>' ;
 	echo '<input type="hidden" name="article_id" value="' . $article_id .'">';
+	echo '<input type="hidden" name="article_id" value="' . $text .'">';
 	echo '</form>';
 
 
 }
 
 //function to calculate amount of matches in text string
-function process_matches($d_cat_id, $article_id) {
-	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	$query = "SELECT Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Data_Type_Id = 1" .
-		"AND Cat_id = $d_cat_id";
-	$result = mysqli_query($dbc, $query);
-}
+function process_matches($dcat_id, $article_id, $text) {
+	global $text, $article_id, $dcat_id, $matches;
+	$matches = array();
+	if ($dcat_id == 1 || $dcat_id == 2 || $dcat_id == 4){
+		$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+		$query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement " .
+			"WHERE Cat_id in ($dcat_id,  5)";
+		$result = mysqli_query($dbc, $query);
+  		while ($row = mysqli_fetch_assoc($result)) {
+			$pos = strpos($text, $row['Match_Term']);
+			if ($pos !== false) {
+    				$matches[] = $row;
+			}			
+		}
+			
+	}mysqli_close($dbc);
 
+	
+		
+}
 
 ?>
