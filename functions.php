@@ -46,24 +46,26 @@ function displaytexttoprocess($article_id){
 
 //function to calculate amount of matches in text string
 function process_matches($dcat_id, $article_id, $text) {
-	global $text, $article_id, $dcat_id, $matches;
-	$matches = array();
-	if ($dcat_id == 1 || $dcat_id == 2 || $dcat_id == 4){
+	global $text, $article_id, $dcat_id;
+//	if ($dcat_id == 1 || $dcat_id == 2 || $dcat_id == 4){
 		$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		$query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement " .
 			"WHERE Cat_id in ($dcat_id,  5)";
 		$result = mysqli_query($dbc, $query);
   		while ($row = mysqli_fetch_assoc($result)) {
-			$pos = strpos($text, $row['Match_Term']);
+			$find = $row['Match_Term'];
+			$pos = strpos($text, $find);
 			if ($pos !== false) {
     				$matches[] = $row;
+				
 			}			
 		}
 			
-	}mysqli_close($dbc);
+	//}
+		mysqli_close($dbc);
 
 	
-		
+return $matches;		
 }
 
 ?>

@@ -6,14 +6,29 @@ require('functions.php');
 if (isset($_POST['dcat_id'])){
         $dcat_id = $_POST['dcat_id'];
 
-	process_matches($dcat_id, $article_id, $text);
+//	process_matches($dcat_id, $article_id, $text);
+
+	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        $query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Cat_id in ($dcat_id,  5)";
+                $result = mysqli_query($dbc, $query);
+                while ($row = mysqli_fetch_assoc($result)) {
+                //	$find = $row['Match_Term'];
+                //      	$pos = strpos($text, $find);
+                //       	if ($pos !== false) {
+                         	$matches[] = $row;
+                                
+                //        }                       
+                }
+
 
 	$page = $_SERVER['PHP_SELF'];
  	$sec = "5";
 	header("Refresh: $sec; url=$page");
- 	echo "Watch the page reload itself in 5 second!";
-	echo $matches[0];
+// 	echo "Watch the page reload itself in 5 second!";
+//	echo $matches;
+//	echo $query;
 
+	echo $row['Match_Term']
 
 
 }
