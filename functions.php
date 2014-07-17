@@ -38,7 +38,7 @@ function displaytexttoprocess($article_id){
 	echo '<button name="dcat_id" type="submit" value="3">Degrade</button>';
 	echo '<button name="dcat_id" type="submit" value="4">Deceive</button>' ;
 	echo '<input type="hidden" name="article_id" value="' . $article_id .'">';
-	echo '<input type="hidden" name="article_id" value="' . $text .'">';
+	echo '<input type="hidden" name="text" value="' . $text .'">';
 	echo '</form>';
 
 
