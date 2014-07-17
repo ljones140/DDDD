@@ -6,16 +6,6 @@ require('functions.php');
 if (isset($_POST['dcat_id'])){
         $dcat_id = $_POST['dcat_id'];
 	$article_id = $_POST['article_id'];
-//	process_matches($dcat_id, $article_id, $text);
-/*
-        $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        $query = "SELECT Article_Text FROM Source_Article WHERE Article_id = $article_id";
-        $result = mysqli_query($dbc, $query);
-        while ($row = mysqli_fetch_assoc($result)) {
-                $text = $row['Article_Text'];
-                $text = str_replace('\\', '', $text);
-                mysqli_close($dbc);
-        }*/
 
 	fetchoriginaltext($article_id);
 	
@@ -34,7 +24,6 @@ if (isset($_POST['dcat_id'])){
                         }                       
                 }
 
-
 	mysqli_close($dbc);
 	$page = $_SERVER['PHP_SELF'];
  	$sec = "20";
@@ -45,9 +34,7 @@ if (isset($_POST['dcat_id'])){
 	echo $match['Match_Term'] .'<br />' ;
 	echo $match['Replace_Term'] .'<br />' ;
 }
-//	echo $query .'<br />';
-//	echo $text . '<br />';
-//	echo $find;
+
 echo $testtext;
 var_dump($matches);
 }
