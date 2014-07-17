@@ -7,7 +7,7 @@ if (isset($_POST['dcat_id'])){
         $dcat_id = $_POST['dcat_id'];
 	$article_id = $_POST['article_id'];
 //	process_matches($dcat_id, $article_id, $text);
-
+/*
         $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         $query = "SELECT Article_Text FROM Source_Article WHERE Article_id = $article_id";
         $result = mysqli_query($dbc, $query);
@@ -15,7 +15,9 @@ if (isset($_POST['dcat_id'])){
                 $text = $row['Article_Text'];
                 $text = str_replace('\\', '', $text);
                 mysqli_close($dbc);
-        }
+        }*/
+
+	fetchoriginaltext($article_id);
 	
 	$testtext = $_POST['text'];;
 
@@ -89,7 +91,9 @@ if (isset($_POST['source_text'])){
 	insertsource_article($source_text);
 	
 	if ($article_id > 0) {
-		displaytexttoprocess($article_id);
+		fetchoriginaltext($article_id);
+		echo '<p>' . $text . '</p><br />';
+		displaybuttons($article_id);
 	} else echo '<h4>Error</h4>';
 }
 

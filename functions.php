@@ -20,7 +20,7 @@ function insertsource_article($source_text){
 
 
 //displays the text to be processed from Article_text and the D buttons
-function displaytexttoprocess($article_id){
+function fetchoriginaltext($article_id){
 	global $text, $article_id;
 	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$query = "SELECT Article_Text FROM Source_Article WHERE Article_id = $article_id";
@@ -28,9 +28,16 @@ function displaytexttoprocess($article_id){
   	while ($row = mysqli_fetch_assoc($result)) {
   		$text = $row['Article_Text'];
   		$text = str_replace('\\', '', $text);
-  		echo '<p>' . $text . '</p><br />';
+  	//	echo '<p>' . $text . '</p><br />';
 		mysqli_close($dbc);
 	}
+}
+
+
+
+
+function displaybuttons($article_id) {
+	global $article_id;
 	//display buttons
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '">';
 	echo '<button name="dcat_id" type="submit" value="1">Deny</button>';
