@@ -9,9 +9,7 @@ if (isset($_POST['dcat_id'])){
 
 	fetchoriginaltext($article_id);
 	
-	$testtext = $_POST['text'];;
 
-	$matches = array();
 	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         $query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Cat_id in ($dcat_id,  5)";
                 $result = mysqli_query($dbc, $query);
@@ -25,6 +23,8 @@ if (isset($_POST['dcat_id'])){
                 }
 
 	mysqli_close($dbc);
+
+
 	$page = $_SERVER['PHP_SELF'];
  	$sec = "20";
 	header("Refresh: $sec; url=$page");
