@@ -24,20 +24,53 @@ if (isset($_POST['dcat_id'])){
 
 	mysqli_close($dbc);
 
+	$serializematches = base64_encode(serialize($matches));
+	
 
 	$page = $_SERVER['PHP_SELF'];
  	$sec = "20";
 	header("Refresh: $sec; url=$page");
-// 	echo "Watch the page reload itself in 5 second!";/i
+
+
+	echo 'full list <br />';
 	foreach ($matches as $match) {
 
 	echo $match['Match_Term'] .'<br />' ;
 	echo $match['Replace_Term'] .'<br />' ;
+
+	}
+
+
+
+	$matchendtest[] = end($matches);
+
+//	var_dump($matchendtest);
+
+	echo '<br /> leftovers <br />';
+
+	unset ($matches[count($matches)-1]);
+
+//	$leftovers = array_pop($matches);
+        foreach ($matches as $match) {
+
+        echo $match['Match_Term'] .'<br />' ;
+        echo $match['Replace_Term'] .'<br />' ;
+
+        }
+
+	echo'<br /> the match on this turn <br />';
+
+	foreach ($matchendtest as $match) {
+
+        echo $match['Match_Term'] .'<br />' ;
+        echo $match['Replace_Term'] .'<br />' ;
+
+        }
+
+
 }
 
-echo $testtext;
-var_dump($matches);
-}
+
 
 
 ?>
