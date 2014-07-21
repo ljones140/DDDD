@@ -10,7 +10,7 @@ if (isset($_POST['dcat_id'])){
 	fetchoriginaltext($article_id);
 	
 
-	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+/*	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         $query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Cat_id in ($dcat_id,  5)";
                 $result = mysqli_query($dbc, $query);
        		while ($row = mysqli_fetch_assoc($result)) {
@@ -23,13 +23,21 @@ if (isset($_POST['dcat_id'])){
                 }
 
 	mysqli_close($dbc);
-
-	$serializematches = base64_encode(serialize($matches));
 	
+	//do insert into processed artilce table and the flagfging table
+	//while getting the last id to porcessed match
+*/
+	//serialize the array and send via get to the page again 
+
+	process_matches($dcat_id, $text, $article_id);
+
+	$serializedmatches = base64_encode(serialize($matches));
+
+//	$processid = 100; 	
 
 	$page = $_SERVER['PHP_SELF'];
  	$sec = "20";
-	header("Refresh: $sec; url=$page");
+	header("Refresh: $sec; url=$page?processid=$processid&matches=$serializedmatches" );
 
 
 	echo 'full list <br />';
