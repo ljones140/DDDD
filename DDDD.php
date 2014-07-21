@@ -13,11 +13,11 @@ if (isset($_POST['dcat_id'])){
 	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         $query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Cat_id in ($dcat_id,  5)";
                 $result = mysqli_query($dbc, $query);
-                while ($row = mysqli_fetch_assoc($result)) {
+       		while ($row = mysqli_fetch_assoc($result)) {
                 	$find = $row['Match_Term'];
-		//	$find = 'Deny';
-                      	$pos = strpos($text, $find);
-                       	if ($pos !== false) {
+                //      $pos = strpos($text, $find);
+                //      if ($pos !== false) {
+			if (preg_match("/\b$find\b/", $text)) { 
                          	$matches[] = $row;
                         }                       
                 }
