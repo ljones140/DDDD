@@ -7,52 +7,34 @@ if (isset($_POST['dcat_id'])){
         $dcat_id = $_POST['dcat_id'];
 	$article_id = $_POST['article_id'];
 
+	//fetch original article text
 	fetchoriginaltext($article_id);
-	
 
-/*	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        $query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Cat_id in ($dcat_id,  5)";
-                $result = mysqli_query($dbc, $query);
-       		while ($row = mysqli_fetch_assoc($result)) {
-                	$find = $row['Match_Term'];
-                //      $pos = strpos($text, $find);
-                //      if ($pos !== false) {
-			if (preg_match("/\b$find\b/", $text)) { 
-                         	$matches[] = $row;
-                        }                       
-                }
-
-	mysqli_close($dbc);
-	
-	//do insert into processed artilce table and the flagfging table
-	//while getting the last id to porcessed match
-*/
-	//serialize the array and send via get to the page again 
-
+	//build the array of matches	
 	process_matches($dcat_id, $text, $article_id);
 
+	//serialize the match array to be sent to next refresh 
 	$serializedmatches = base64_encode(serialize($matches));
 
-//	$processid = 100; 	
-
+	//refresh page while sending processid and matches array
 	$page = $_SERVER['PHP_SELF'];
- 	$sec = "20";
-	header("Refresh: $sec; url=$page?processid=$processid&matches=$serializedmatches" );
+ 	$sec = "2";
+	header("Refresh: $sec; url=$page?processid=$processed_id&matches=$serializedmatches" );
 
 
-	echo 'full list <br />';
+}
+
+//testing
+/*	echo 'full list <br />';
 	foreach ($matches as $match) {
 
 	echo $match['Match_Term'] .'<br />' ;
 	echo $match['Replace_Term'] .'<br />' ;
-
-	}
-
-
-
 	$matchendtest[] = end($matches);
 
 //	var_dump($matchendtest);
+
+	echo $processed_id;
 
 	echo '<br /> leftovers <br />';
 
@@ -75,10 +57,28 @@ if (isset($_POST['dcat_id'])){
 
         }
 
+*/
+
+
+//unserialize the array, take off the current match and if still more refresh and pass it on
+if (isset($_GET['matches'])){
+	$processed_id = $_GET['processid'];
+	$serializedmatches = $_GET['matches'];
+
+	$matches = unserialize(base64_decode($serializedmatches));
+
+	$currentmatches[] = end($matches);
+
+	if (!empty($matches[0]['Replace_Term'])){
+
+		unset ($matches[count($matches)-1]);
+		$serializedmatches = base64_encode(serialize($matches));
+		$page = $_SERVER['PHP_SELF'];
+        	$sec = "2";
+        	header("Refresh: $sec; url=$page?processid=$processed_id&matches=$serializedmatches" );
+	}
 
 }
-
-
 
 
 ?>
@@ -102,7 +102,7 @@ if (isset($_POST['dcat_id'])){
 
 
 //check to see if 1st time to the page if so diplay text ares to enter text 
-if (!isset($_POST['source_text']) && !isset($_POST['dcat_id'])) { 
+if (!isset($_POST['source_text']) && !isset($_POST['dcat_id']) && !isset($_GET['matches']) ) { 
 
 	echo '<h2>Please Enter Text to be Submitted Below</h2>';
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '"id="textinput">';
@@ -127,7 +127,10 @@ if (isset($_POST['source_text'])){
 
 
  
-        
+if (isset($_GET['matches'])){ 
+
+	var_dump($currentmatches);
+}
 
 
 

@@ -53,7 +53,7 @@ function displaybuttons($article_id) {
 
 //function to calculate amount of matches in text string
 function process_matches($dcat_id, $text, $article_id) {
-	global $text, $article_id, $dcat_id, $matches ,$Processed_id;
+	global $text, $article_id, $dcat_id, $matches ,$processed_id;
 	$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         $query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Cat_id in ($dcat_id,  5)";
                 $result = mysqli_query($dbc, $query);
@@ -75,21 +75,18 @@ function process_matches($dcat_id, $text, $article_id) {
 			" VALUES ('$text', $article_id , now() )";
 
 	mysqli_query($dbc, $query);
-        $Processed_id = mysqli_insert_id($dbc);
+        $processed_id = mysqli_insert_id($dbc);
         mysqli_close($dbc);
 
 
         $dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        $query = "INSERT INTO Article_Process_Link VALUES ($article_id, $Processed_id)";
+        $query = "INSERT INTO Article_Process_Link VALUES ($article_id, $processed_id)";
 
         mysqli_query($dbc, $query);
         mysqli_close($dbc);
 
 
 
-//while getting the last id to porcessed match
-//return $matches; 
-//return $Processed_id;		
 }
 
 ?>
