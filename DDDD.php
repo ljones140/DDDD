@@ -145,6 +145,20 @@ if (isset($_GET['matches'])){
 
 	var_dump($currentmatches);
 
+	fetch_processed_text($processed_id);
+	
+	if (!empty($currentmatches[0]['Replace_Term'])){
+		$find = $currentmatches[0]['Match_Term'];
+		$replace = $currentmatches[0]['Replace_Term'];
+		
+		$processingtext = preg_replace("/\b$find\b/", $replace, $processingtext);
+		
+	
+
+	}
+	
+	echo '<p>' . $processingtext . '</p>';
+
 	if (empty($currentmatches[0]['Replace_Term'])){
 		echo '<br /><a href="' . $_SERVER['PHP_SELF'] .'">Start Again</a>';
 	}

@@ -102,4 +102,19 @@ function process_matches($dcat_id, $text, $article_id) {
 	}
 }
 
+function fetch_processed_text($processed_id){
+	global $processingtext;
+	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	$query = "SELECT Text FROM Processed_Article WHERE Pro_Art_id = $processed_id";
+		$result = mysqli_query($dbc, $query);
+		while ($row = mysqli_fetch_assoc($result)) {
+			$processingtext = $row['Text'];
+
+	}
+	mysqli_close($dbc);
+}
+
+
+
+
 ?>
