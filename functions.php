@@ -53,7 +53,7 @@ function displaybuttons($article_id) {
 
 //function to calculate amount of matches in text string
 function process_matches($dcat_id, $text, $article_id) {
-	global $text, $article_id, $dcat_id, $matches ,$processed_id;
+	global $text, $article_id, $dcat_id, $matches ,$processed_id, $dtype;
 	$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         $query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Cat_id in ($dcat_id,  5)";
                 $result = mysqli_query($dbc, $query);
@@ -85,8 +85,21 @@ function process_matches($dcat_id, $text, $article_id) {
         mysqli_query($dbc, $query);
         mysqli_close($dbc);
 
+	switch($dcat_id) {
+		case 1:
+			$dtype = 'Deny';
+			break;
+		case 2:
+			$dtype = 'Disrupt';
+			break;
+		case 3:
+			$dtype = 'Degrade';
+			break;
+		case 4:
+			$dtype = 'Deceive';
+			break;
 
-
+	}
 }
 
 ?>

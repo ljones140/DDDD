@@ -96,7 +96,21 @@ if (isset($_GET['matches'])){
 </head>
 <body>
 
-  <h1>Deny, Disrupt, Degrade and Deceive</h1>
+<?php
+
+if (!isset($dtype)){
+	echo '<h1>Deny, Disrupt, Degrade and Deceive</h1>'; 
+} else {
+
+	echo '<h1>' . $dtype . '</h1>'; 
+}
+
+
+
+
+
+
+?>
 
 <?php
 
@@ -130,6 +144,11 @@ if (isset($_POST['source_text'])){
 if (isset($_GET['matches'])){ 
 
 	var_dump($currentmatches);
+
+	if (empty($currentmatches[0]['Replace_Term'])){
+		echo '<br /><a href="' . $_SERVER['PHP_SELF'] .'">Start Again</a>';
+	}
+
 }
 
 
