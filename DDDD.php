@@ -18,46 +18,12 @@ if (isset($_POST['dcat_id'])){
 
 	//refresh page while sending processid and matches array
 	$page = $_SERVER['PHP_SELF'];
- 	$sec = "2";
+ 	$sec = "1";
 	header("Refresh: $sec; url=$page?processid=$processed_id&matches=$serializedmatches" );
 
 
 }
 
-//testing
-/*	echo 'full list <br />';
-	foreach ($matches as $match) {
-
-	echo $match['Match_Term'] .'<br />' ;
-	echo $match['Replace_Term'] .'<br />' ;
-	$matchendtest[] = end($matches);
-
-//	var_dump($matchendtest);
-
-	echo $processed_id;
-
-	echo '<br /> leftovers <br />';
-
-	unset ($matches[count($matches)-1]);
-
-//	$leftovers = array_pop($matches);
-        foreach ($matches as $match) {
-
-        echo $match['Match_Term'] .'<br />' ;
-        echo $match['Replace_Term'] .'<br />' ;
-
-        }
-
-	echo'<br /> the match on this turn <br />';
-
-	foreach ($matchendtest as $match) {
-
-        echo $match['Match_Term'] .'<br />' ;
-        echo $match['Replace_Term'] .'<br />' ;
-
-        }
-
-*/
 
 
 //unserialize the array, take off the current match and if still more refresh and pass it on
@@ -67,14 +33,13 @@ if (isset($_GET['matches'])){
 
 	$matches = unserialize(base64_decode($serializedmatches));
 
-	$currentmatches[] = end($matches);
 
 	if (!empty($matches[0]['Replace_Term'])){
-
+		$currentmatches[] = end($matches);
 		unset ($matches[count($matches)-1]);
 		$serializedmatches = base64_encode(serialize($matches));
 		$page = $_SERVER['PHP_SELF'];
-        	$sec = "2";
+        	$sec = "1";
         	header("Refresh: $sec; url=$page?processid=$processed_id&matches=$serializedmatches" );
 	}
 
@@ -140,25 +105,26 @@ if (isset($_POST['source_text'])){
 }
 
 
- 
+//this does the matching and replacing 
 if (isset($_GET['matches'])){ 
 
-	var_dump($currentmatches);
+//	var_dump($currentmatches);
 
 	fetch_processed_text($processed_id);
 	
 	if (!empty($currentmatches[0]['Replace_Term'])){
 		$find = $currentmatches[0]['Match_Term'];
-		$replace = $currentmatches[0]['Replace_Term'];
+		$replace = '<strong>' . $currentmatches[0]['Replace_Term'] . '</strong>';
 		
 		$processingtext = preg_replace("/\b$find\b/", $replace, $processingtext);
-		
 	
+		update_processed_text($processed_id, $processingtext);	
 
 	}
 	
 	echo '<p>' . $processingtext . '</p>';
 
+	//puts link to start again if matches empty
 	if (empty($currentmatches[0]['Replace_Term'])){
 		echo '<br /><a href="' . $_SERVER['PHP_SELF'] .'">Start Again</a>';
 	}

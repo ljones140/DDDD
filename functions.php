@@ -27,8 +27,7 @@ function fetchoriginaltext($article_id){
 	$result = mysqli_query($dbc, $query);
   	while ($row = mysqli_fetch_assoc($result)) {
   		$text = $row['Article_Text'];
-  		$text = str_replace('\\', '', $text);
-  	//	echo '<p>' . $text . '</p><br />';
+  //		$text = str_replace('\\', '', $text);
 		mysqli_close($dbc);
 	}
 }
@@ -114,7 +113,14 @@ function fetch_processed_text($processed_id){
 	mysqli_close($dbc);
 }
 
-
+function update_processed_text($processed_id, $processingtext){
+	global $processed_id, $processingtext;	
+	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        $processingtext = mysqli_real_escape_string($dbc, $processingtext);
+	$query = "UPDATE Processed_Article SET Text = '$processingtext' WHERE Pro_Art_id = $processed_id";
+        mysqli_query($dbc, $query);
+        mysqli_close($dbc);
+}
 
 
 ?>
