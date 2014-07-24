@@ -54,7 +54,8 @@ function displaybuttons($article_id) {
 function process_matches($dcat_id, $text, $article_id) {
 	global $text, $article_id, $dcat_id, $matches ,$processed_id, $dtype;
 	$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        $query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Cat_id in ($dcat_id,  5)";
+        $query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Cat_id in ($dcat_id,  5)" .
+			"AND Data_type_id = 1";
                 $result = mysqli_query($dbc, $query);
                 while ($row = mysqli_fetch_assoc($result)) {
                         $find = $row['Match_Term'];
