@@ -67,12 +67,12 @@ function process_matches($dcat_id, $text, $article_id) {
                 }
         mysqli_close($dbc);
 
+	//add the degade sentence replacing here so that the text gets entered into processed_article
+
         //do insert into processed artilce table and the flagfging table
-        
-	
 	$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$query = "INSERT INTO Processed_Article (text, D_Catid, Datecreated) ".
-			" VALUES ('$text', $article_id , now() )";
+			" VALUES ('$text', $dcat_id , now() )";
 
 	mysqli_query($dbc, $query);
         $processed_id = mysqli_insert_id($dbc);
