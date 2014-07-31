@@ -53,6 +53,30 @@ function displaybuttons($article_id) {
 //function to calculate amount of matches in text string
 function process_matches($dcat_id, $text, $article_id) {
 	global $text, $article_id, $dcat_id, $matches ,$processed_id, $dtype;
+
+	//degrade sentence replace
+	if ($dcat_id = 3){ 
+		$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        	$query = "SELECT Replace_Term FROM Match_Replacement WHERE Cat_id = 3 AND Data_type_id = 2";.
+                $result = mysqli_query($dbc, $query);
+                while ($row = mysqli_fetch_array($result)){
+			$replacesentences[] = $row;
+		}
+        	mysqli_close($dbc);
+
+		$sentences = explode(" .", $text);
+
+		for ($i = 2; $i < count($sentences); $i += 3) {
+			$sentences[$i] =  $replacesentences[mt_rand(0, count($replacesentences) - 1)]; 
+		}
+
+		$text = implode(" ." $sentences);	
+
+	}
+	
+
+
+
 	$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         $query = "SELECT Cat_id,  Data_type_id, Match_Term, Replace_Term FROM Match_Replacement WHERE Cat_id in ($dcat_id,  5)" .
 			"AND Data_type_id = 1";
@@ -67,7 +91,6 @@ function process_matches($dcat_id, $text, $article_id) {
                 }
         mysqli_close($dbc);
 
-	//add the degade sentence replacing here so that the text gets entered into processed_article
 
         //do insert into processed artilce table and the flagfging table
 	$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -100,6 +123,7 @@ function process_matches($dcat_id, $text, $article_id) {
 			break;
 
 	}
+	
 }
 
 function fetch_processed_text($processed_id){
