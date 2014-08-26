@@ -57,21 +57,26 @@ function process_matches($dcat_id, $text, $article_id) {
 	//degrade sentence replace
 	if ($dcat_id = 3){ 
 		$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        	$query = "SELECT Replace_Term FROM Match_Replacement WHERE Cat_id = 3 AND Data_type_id = 2";.
+        	$query = "SELECT Replace_Term FROM Match_Replacement WHERE Cat_id = 3 AND Data_type_id = 2";
                 $result = mysqli_query($dbc, $query);
                 while ($row = mysqli_fetch_array($result)){
 			$replacesentences[] = $row;
 		}
         	mysqli_close($dbc);
 
-		$sentences = explode(" .", $text);
+		$sentences = explode(". ", $text);
 
 		for ($i = 2; $i < count($sentences); $i += 3) {
-			$sentences[$i] =  $replacesentences[mt_rand(0, count($replacesentences) - 1)]; 
+			$sentences[$i] =  $replacesentences[mt_rand(0, count($replacesentences) - 1)][0]; 
+//			$sentences[$i] = str_replace($sentences[$i], $replacesentences[mt_rand(0, count($replacesentences))][0], $sentences[$i]);
+//			array_splice($sentences, $i, 1, $replacesentences[mt_rand(0, count($replacesentences) - 1)][0] );
 		}
 
-		$text = implode(" ." $sentences);	
-
+		$text = implode(". ", $sentences);
+//		echo '<h2>' . $replacesentences[0][0]. '</h2>';	
+//		echo '<h2>' . $replacesentences[1][0]. '</h2>';	
+//		var_dump($replacesentences);
+//		var_dump($sentences);
 	}
 	
 
