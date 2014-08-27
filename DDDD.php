@@ -82,7 +82,6 @@ if (!isset($dtype)){
 
 //check to see if 1st time to the page if so diplay text ares to enter text 
 if (!isset($_POST['source_text']) && !isset($_POST['dcat_id']) && !isset($_GET['matches']) ) { 
-
 	echo '<h2>Please Enter Text to be Submitted Below</h2>';
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '"id="textinput">';
 	echo '<textarea rows="20" cols = "50" name="source_text" form="textinput">Enter Text Here.....</textarea>';

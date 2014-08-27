@@ -2,6 +2,42 @@
 
 //functions for DDDD
 
+//Gets text from a given URL using curl and readability
+
+function fetch_url_article($url){
+	//step1 initate session
+        $cSession = curl_init();
+        //step2 set web page
+        curl_setopt($cSession,CURLOPT_URL,"http://www.telegraph.co.uk/health/11060140/British-hospital-performs-worlds-first-frozen-liver-transplant.html");
+        curl_setopt($cSession,CURLOPT_RETURNTRANSFER,true); //will tell curl to return the string instead of print it out 
+        curl_setopt($cSession,CURLOPT_HEADER, false); //will tell curl to ignore the header
+        //step3 execute session
+        $result=curl_exec($cSession);
+        //step4 close session
+        curl_close($cSession);
+        //step5 do what you want with the results
+        $html = $result;
+
+
+        require 'lib/Readability.inc.php';
+
+//      $Readability     = new Readability($html, $html_input_charset); // default charset is utf-8
+        $Readability     = new Readability($html, 'utf-8'); // default charset is utf-8
+        $ReadabilityData = $Readability->getContent(); // throws an exception when no suitable content is found
+
+        var_dump($ReadabilityData);
+//      echo "<h1>".$ReadabilityData['title']."</h1>";
+//      echo $ReadabilityData['content'];
+
+
+
+
+}
+
+
+
+
+
 //inserts source text into database
 function insertsource_article($source_text){
 	global $article_id;
