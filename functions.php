@@ -5,31 +5,49 @@
 //Gets text from a given URL using curl and readability
 
 function fetch_url_article($url){
-	//step1 initate session
+	global $sourcetext, $url, $article_id, $text;
+	//initate session
         $cSession = curl_init();
-        //step2 set web page
-        curl_setopt($cSession,CURLOPT_URL,"http://www.telegraph.co.uk/health/11060140/British-hospital-performs-worlds-first-frozen-liver-transplant.html");
+        //set web page
+        curl_setopt($cSession,CURLOPT_URL, $url);
         curl_setopt($cSession,CURLOPT_RETURNTRANSFER,true); //will tell curl to return the string instead of print it out 
         curl_setopt($cSession,CURLOPT_HEADER, false); //will tell curl to ignore the header
-        //step3 execute session
+        //execute session
         $result=curl_exec($cSession);
-        //step4 close session
-        curl_close($cSession);
-        //step5 do what you want with the results
-        $html = $result;
+        //close session
+	if(curl_errno($cSession)){
+    		echo '<p>Sorry we are unable to use the supplier url. error:' . curl_error($cSession) . '</p>' ;
+	}
+	else{
+        	curl_close($cSession);
 
+        	$html = $result;
+		
+	        require 'lib/Readability.inc.php';
 
-        require 'lib/Readability.inc.php';
-
-//      $Readability     = new Readability($html, $html_input_charset); // default charset is utf-8
-        $Readability     = new Readability($html, 'utf-8'); // default charset is utf-8
-        $ReadabilityData = $Readability->getContent(); // throws an exception when no suitable content is found
-
-        var_dump($ReadabilityData);
-//      echo "<h1>".$ReadabilityData['title']."</h1>";
-//      echo $ReadabilityData['content'];
-
-
+//	        $Readability     = new Readability($html, $html_input_charset); // default charset is utf-8
+        	$Readability     = new Readability($html, 'utf-8'); // default charset is utf-8
+        	$ReadabilityData = $Readability->getContent(); // throws an exception when no suitable content is found
+		
+//        	var_dump($ReadabilityData);
+//      	echo "<h1>".$ReadabilityData['title']."</h1>";
+//      	echo $ReadabilityData['content'];
+		
+		$source_text = $ReadabilityData['title'] . $ReadabilityData['content'];
+		
+		if(strlen($source_text) > 0){
+			
+			insertsource_article($source_text, $url);
+			if ($article_id > 0) {
+                		fetchoriginaltext($article_id);
+                		echo '<p>' . $text . '</p><br />';
+                	displaybuttons($article_id);
+        		} else echo '<h4>Error</h4>';
+		}
+		else { 
+			echo '<p>Sorry afriad we cannot process this artilce. Do try again</p>';
+		}
+	}
 
 
 }
@@ -39,7 +57,7 @@ function fetch_url_article($url){
 
 
 //inserts source text into database
-function insertsource_article($source_text){
+function insertsource_article($source_text, $url){
 	global $article_id;
         $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         /* check connection */
@@ -48,7 +66,7 @@ function insertsource_article($source_text){
         exit();
         }
         $source_text = mysqli_real_escape_string($dbc, $source_text);
-        $query = "INSERT INTO Source_Article (Article_Text,Date_Created) VALUES ('$source_text',now())";
+        $query = "INSERT INTO Source_Article (Article_Text,Date_Created, URL) VALUES ('$source_text',now(),'$url' )";
         mysqli_query($dbc, $query);
         $article_id = mysqli_insert_id($dbc);
         mysqli_close($dbc);

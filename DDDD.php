@@ -81,11 +81,18 @@ if (!isset($dtype)){
 
 
 //check to see if 1st time to the page if so diplay text ares to enter text 
-if (!isset($_POST['source_text']) && !isset($_POST['dcat_id']) && !isset($_GET['matches']) ) { 
+if (!isset($_POST['source_text']) && !isset($_POST['url']) && !isset($_POST['dcat_id']) && !isset($_GET['matches']) ) { 
 	echo '<h2>Please Enter Text to be Submitted Below</h2>';
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '"id="textinput">';
 	echo '<textarea rows="20" cols = "50" name="source_text" form="textinput">Enter Text Here.....</textarea>';
+	echo '<input type="hidden" name="URL" value=" ">';
 	echo '<br />';
+	echo '<input type="submit">';
+	echo '</form>';
+	
+	echo '<p>Or better yet enter a URL</p>';
+	echo '<form method="post" action="' . $_SERVER['PHP_SELF']. '"id="urlinput" >';
+	echo '<input type="text" name="url">';
 	echo '<input type="submit">';
 	echo '</form>';
 
@@ -94,7 +101,8 @@ if (!isset($_POST['source_text']) && !isset($_POST['dcat_id']) && !isset($_GET['
 //if text added then insert text to db,  display the text and the DDDD buttons
 if (isset($_POST['source_text'])){
 	$source_text = $_POST['source_text'];
-	insertsource_article($source_text);
+	$url = $_POST['url'];
+	insertsource_article($source_text, $url);
 	
 	if ($article_id > 0) {
 		fetchoriginaltext($article_id);
@@ -102,6 +110,12 @@ if (isset($_POST['source_text'])){
 		displaybuttons($article_id);
 	} else echo '<h4>Error</h4>';
 }
+
+if (isset($_POST['url'])){
+	$url = $_POST['url'];
+	fetch_url_article($url);
+}
+
 
 
 //this does the matching and replacing 
