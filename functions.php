@@ -81,7 +81,8 @@ function fetchoriginaltext($article_id){
 	$result = mysqli_query($dbc, $query);
   	while ($row = mysqli_fetch_assoc($result)) {
   		$text = $row['Article_Text'];
-  //		$text = str_replace('\\', '', $text);
+  		$text = str_replace('\\', '', $text);
+		$text = str_replace('\n', '', $text);
 		mysqli_close($dbc);
 	}
 }
@@ -109,7 +110,7 @@ function process_matches($dcat_id, $text, $article_id) {
 	global $text, $article_id, $dcat_id, $matches ,$processed_id, $dtype;
 
 	//degrade sentence replace
-	if ($dcat_id = 3){ 
+	if ($dcat_id == 3){ 
 		$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         	$query = "SELECT Replace_Term FROM Match_Replacement WHERE Cat_id = 3 AND Data_type_id = 2";
                 $result = mysqli_query($dbc, $query);
