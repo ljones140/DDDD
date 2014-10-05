@@ -41,8 +41,8 @@ function fetch_url_article($url){
 			if ($article_id > 0) {
                 		fetchoriginaltext($article_id);
                 		echo '<p>' . $text . '</p><br />';
-                	displaybuttons($article_id);
-        		} else echo '<h4>Error</h4>';
+                		displaybuttons($article_id);
+        		} else echo '<h4>Error here</h4>';
 		}
 		else { 
 			echo '<p>Sorry afriad we cannot process this artilce. Do try again</p>';
@@ -154,8 +154,10 @@ function process_matches($dcat_id, $text, $article_id) {
 
         //do insert into processed artilce table and the flagfging table
 	$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	$text = mysqli_real_escape_string($dbc, $text);
 	$query = "INSERT INTO Processed_Article (text, D_Catid, Datecreated) ".
 			" VALUES ('$text', $dcat_id , now() )";
+	
 
 	mysqli_query($dbc, $query);
         $processed_id = mysqli_insert_id($dbc);
