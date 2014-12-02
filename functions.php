@@ -123,15 +123,9 @@ function process_matches($dcat_id, $text, $article_id) {
 
 		for ($i = 2; $i < count($sentences); $i += 3) {
 			$sentences[$i] =  $replacesentences[mt_rand(0, count($replacesentences) - 1)][0]; 
-//			$sentences[$i] = str_replace($sentences[$i], $replacesentences[mt_rand(0, count($replacesentences))][0], $sentences[$i]);
-//			array_splice($sentences, $i, 1, $replacesentences[mt_rand(0, count($replacesentences) - 1)][0] );
 		}
 
 		$text = implode(". ", $sentences);
-//		echo '<h2>' . $replacesentences[0][0]. '</h2>';	
-//		echo '<h2>' . $replacesentences[1][0]. '</h2>';	
-//		var_dump($replacesentences);
-//		var_dump($sentences);
 	}
 	
 
@@ -143,8 +137,6 @@ function process_matches($dcat_id, $text, $article_id) {
                 $result = mysqli_query($dbc, $query);
                 while ($row = mysqli_fetch_assoc($result)) {
                         $find = $row['Match_Term'];
-                //      $pos = strpos($text, $find);
-                //      if ($pos !== false) {
                         if (preg_match("/\b$find\b/", $text)) {
                                 $matches[] = $row;
                         }

@@ -92,7 +92,7 @@ if (!isset($_POST['source_text']) && !isset($_POST['url']) && !isset($_POST['dca
 	
 	echo '<p>Or better yet enter a URL</p>';
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF']. '"id="urlinput" >';
-	echo '<input type="text" name="url">';
+	echo '<input type="url" name="url">';
 	echo '<input type="submit">';
 	echo '</form>';
 
