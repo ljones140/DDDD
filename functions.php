@@ -40,8 +40,8 @@ function fetch_url_article($url){
 			insertsource_article($source_text, $url);
 			if ($article_id > 0) {
                 		fetchoriginaltext($article_id);
-                		echo '<div class="article"><p>' . $text . '</div></p><br />';
-                		displaybuttons($article_id);
+//                		echo '<div class="article"><p>' . $text . '</div></p><br />';
+//                		displaybuttons($article_id);
         		} else echo '<h4>Error here</h4>';
 		}
 		else { 

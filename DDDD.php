@@ -117,7 +117,7 @@ if (isset($_POST['source_text'])){
 	
 	if ($article_id > 0) {
 		fetchoriginaltext($article_id);
-		echo '<div class="article"><p>' . $text . '</p></div><br />';
+		echo '<div class="article">' . $text . '</div><br />';
 		displaybuttons($article_id);
 	} else echo '<h4>Error</h4>';
 }
@@ -125,6 +125,8 @@ if (isset($_POST['source_text'])){
 if (isset($_POST['url'])){
 	$url = $_POST['url'];
 	fetch_url_article($url);
+	echo '<div class="article">' . $text . '</div><br />';
+	displaybuttons($article_id);
 }
 
 
@@ -146,7 +148,7 @@ if (isset($_GET['matches'])){
 
 	}
 	
-	echo '<p>' . $processingtext . '</p>';
+	echo '<div class="article"><p>' . $processingtext . '</p></div>';
 
 	//puts link to start again if matches empty
 	if (empty($currentmatches[0]['Replace_Term'])){
