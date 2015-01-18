@@ -82,7 +82,7 @@ function fetchoriginaltext($article_id){
   	while ($row = mysqli_fetch_assoc($result)) {
   		$text = $row['Article_Text'];
   		$text = str_replace('\\', '', $text);
-		$text = str_replace('\n', '', $text);
+		$text = str_replace("\n", '', $text);
 		mysqli_close($dbc);
 	}
 }
@@ -193,7 +193,7 @@ function fetch_processed_text($processed_id){
 		while ($row = mysqli_fetch_assoc($result)) {
 			$processingtext = $row['Text'];
 			$processingtext = str_replace('\\', '', $processingtext);
-			$processingtext = str_replace('\n', '', $processingtext);
+			$processingtext = str_replace("\n", '', $processingtext);
 
 
 	}
@@ -204,7 +204,7 @@ function update_processed_text($processed_id, $processingtext){
 	global $processed_id, $processingtext;	
 	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 //	below line commented ut as was adding unwanted '\' in html
-//        $processingtext = mysqli_real_escape_string($dbc, $processingtext);
+        $processingtext = mysqli_real_escape_string($dbc, $processingtext);
 	$query = "UPDATE Processed_Article SET Text = '$processingtext' WHERE Pro_Art_id = $processed_id";
         mysqli_query($dbc, $query);
         mysqli_close($dbc);

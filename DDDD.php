@@ -141,10 +141,12 @@ if (isset($_GET['matches'])){
 		
 		$processingtext = preg_replace("/\b$find\b/", $replace, $processingtext);
 
-		$processingtext = str_replace('\\', '', $processingtext);
-		$processingtext = str_replace('\n', '', $processingtext);
-	
 		update_processed_text($processed_id, $processingtext);	
+	
+		$processingtext = str_replace('\\', '', $processingtext);
+		$processingtext = str_replace("\n", '', $processingtext);
+	
+
 
 	}
 	
