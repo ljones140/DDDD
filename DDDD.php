@@ -56,20 +56,21 @@ if (isset($_GET['matches'])){
 
   <title>Deny, Disrupt, Degrade and Deceive</title>
 
- <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+ <link rel="stylesheet" type="text/css"  href="dddd.css"> 
 
 </head>
 <body>
 
 <?php
 
+echo '<div id="header">';
 if (!isset($dtype)){
-	echo '<h1>Deny, Disrupt, Degrade and Deceive</h1>'; 
+	echo '<h1>Deny, Disrupt, Degrade and Deceive</h1>';
 } else {
 
 	echo '<h1>' . $dtype . '</h1>'; 
 }
-
+echo '</div>'; 
 
 
 
@@ -82,19 +83,29 @@ if (!isset($dtype)){
 
 //check to see if 1st time to the page if so diplay text ares to enter text 
 if (!isset($_POST['source_text']) && !isset($_POST['url']) && !isset($_POST['dcat_id']) && !isset($_GET['matches']) ) { 
-	echo '<h2>Please Enter Text to be Submitted Below</h2>';
-	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '"id="textinput">';
-	echo '<textarea rows="20" cols = "50" name="source_text" form="textinput">Enter Text Here.....</textarea>';
+//	echo '<h2>Please Enter Text to be Submitted Below</h2>';
+	echo '<fieldset>';
+	echo '<legend>Submit Your Article</legend>';
+	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '" id="textinput">';
+	echo '<div class="input">';
+//	echo '<textarea rows="20" cols = "50" name="source_text" form="textinput">Enter Text Here.....</textarea>';
+	echo '<label for="textinput" class="title">Text:</label>';
+	echo '<input type="text" name="source_text">';
 	echo '<input type="hidden" name="URL" value=" ">';
-	echo '<br />';
-	echo '<input type="submit">';
+//	echo '<br />';
+	echo '<input type="submit" class="styled-button">';
+	echo '</div>';
 	echo '</form>';
 	
-	echo '<p>Or better yet enter a URL</p>';
-	echo '<form method="post" action="' . $_SERVER['PHP_SELF']. '"id="urlinput" >';
+//	echo '<p>Or better yet enter a URL</p>';
+	echo '<form method="post" action="' . $_SERVER['PHP_SELF']. '" id="urlinput" >';
+	echo '<div class="input">';
+	echo '<label for="url" class="title">Url:</label>';
 	echo '<input type="url" name="url">';
-	echo '<input type="submit">';
+	echo '<input type="submit" class="styled-button">';
+	echo '</div>';
 	echo '</form>';
+	echo '</fieldset>';
 
 }
 
@@ -106,7 +117,7 @@ if (isset($_POST['source_text'])){
 	
 	if ($article_id > 0) {
 		fetchoriginaltext($article_id);
-		echo '<p>' . $text . '</p><br />';
+		echo '<div class="article"><p>' . $text . '</p></div><br />';
 		displaybuttons($article_id);
 	} else echo '<h4>Error</h4>';
 }

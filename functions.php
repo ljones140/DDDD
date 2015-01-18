@@ -33,14 +33,14 @@ function fetch_url_article($url){
 //      	echo "<h1>".$ReadabilityData['title']."</h1>";
 //      	echo $ReadabilityData['content'];
 		
-		$source_text = $ReadabilityData['title'] . $ReadabilityData['content'];
+		$source_text = '<div class="articlehead">' . $ReadabilityData['title'] .'</div>' . $ReadabilityData['content'];
 		
 		if(strlen($source_text) > 0){
 			
 			insertsource_article($source_text, $url);
 			if ($article_id > 0) {
                 		fetchoriginaltext($article_id);
-                		echo '<p>' . $text . '</p><br />';
+                		echo '<div class="article"><p>' . $text . '</div></p><br />';
                 		displaybuttons($article_id);
         		} else echo '<h4>Error here</h4>';
 		}
