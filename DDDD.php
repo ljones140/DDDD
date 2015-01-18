@@ -18,7 +18,7 @@ if (isset($_POST['dcat_id'])){
 
 	//refresh page while sending processid and matches array
 	$page = $_SERVER['PHP_SELF'];
- 	$sec = "1";
+ 	$sec = "2";
 	header("Refresh: $sec; url=$page?processid=$processed_id&matches=$serializedmatches" );
 
 
@@ -83,21 +83,17 @@ echo '</div>';
 
 //check to see if 1st time to the page if so diplay text ares to enter text 
 if (!isset($_POST['source_text']) && !isset($_POST['url']) && !isset($_POST['dcat_id']) && !isset($_GET['matches']) ) { 
-//	echo '<h2>Please Enter Text to be Submitted Below</h2>';
 	echo '<fieldset>';
 	echo '<legend>Submit Your Article</legend>';
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '" id="textinput">';
 	echo '<div class="input">';
-//	echo '<textarea rows="20" cols = "50" name="source_text" form="textinput">Enter Text Here.....</textarea>';
 	echo '<label for="textinput" class="title">Text:</label>';
 	echo '<input type="text" name="source_text">';
 	echo '<input type="hidden" name="URL" value=" ">';
-//	echo '<br />';
 	echo '<input type="submit" class="styled-button">';
 	echo '</div>';
 	echo '</form>';
 	
-//	echo '<p>Or better yet enter a URL</p>';
 	echo '<form method="post" action="' . $_SERVER['PHP_SELF']. '" id="urlinput" >';
 	echo '<div class="input">';
 	echo '<label for="url" class="title">Url:</label>';
@@ -134,6 +130,7 @@ if (isset($_POST['url'])){
 //this does the matching and replacing 
 if (isset($_GET['matches'])){ 
 
+//	use this vardump to check matches
 //	var_dump($currentmatches);
 
 	fetch_processed_text($processed_id);
@@ -143,6 +140,9 @@ if (isset($_GET['matches'])){
 		$replace = '<strong>' . $currentmatches[0]['Replace_Term'] . '</strong>';
 		
 		$processingtext = preg_replace("/\b$find\b/", $replace, $processingtext);
+
+		$processingtext = str_replace('\\', '', $processingtext);
+		$processingtext = str_replace('\n', '', $processingtext);
 	
 		update_processed_text($processed_id, $processingtext);	
 
@@ -150,9 +150,11 @@ if (isset($_GET['matches'])){
 	
 	echo '<div class="article"><p>' . $processingtext . '</p></div>';
 
+//	var_dump ($processingtext);
+
 	//puts link to start again if matches empty
 	if (empty($currentmatches[0]['Replace_Term'])){
-		echo '<br /><a href="' . $_SERVER['PHP_SELF'] .'">Start Again</a>';
+		echo '<br /><div class="styled-button start-again"><a href="' . $_SERVER['PHP_SELF'] .'">Start Again</a></div>';
 	}
 
 }

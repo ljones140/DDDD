@@ -93,14 +93,19 @@ function fetchoriginaltext($article_id){
 function displaybuttons($article_id) {
 	global $article_id;
 	//display buttons
-	echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '">';
-	echo '<button name="dcat_id" type="submit" value="1">Deny</button>';
-	echo '<button name="dcat_id" type="submit" value="2">Disrupt</button>';
-	echo '<button name="dcat_id" type="submit" value="3">Degrade</button>';
-	echo '<button name="dcat_id" type="submit" value="4">Deceive</button>' ;
+	echo '<fieldset>';
+	echo '<legend>Select Process</legend>';
+	echo '<form method="post" class="dddd-button" action="' . $_SERVER['PHP_SELF'] . '">';
+	echo '<ul>';
+	echo '<li><button name="dcat_id" type="submit" value="1" class="styled-button">Deny</button></li>';
+	echo '<li><button name="dcat_id" type="submit" value="2" class="styled-button">Disrupt</button></li>';
+	echo '<li><button name="dcat_id" type="submit" value="3" class="styled-button">Degrade</button></li>';
+	echo '<li><button name="dcat_id" type="submit" value="4" class="styled-button">Deceive</button></li>' ;
+	echo '</ul>';
 	echo '<input type="hidden" name="article_id" value="' . $article_id .'">';
 	echo '<input type="hidden" name="text" value="' . $text .'">';
 	echo '</form>';
+	echo '</fieldset>';
 
 
 }
@@ -144,7 +149,7 @@ function process_matches($dcat_id, $text, $article_id) {
         mysqli_close($dbc);
 
 
-        //do insert into processed artilce table and the flagfging table
+        //do insert into processed artilce table and the flagging table
 	$dbc= mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$text = mysqli_real_escape_string($dbc, $text);
 	$query = "INSERT INTO Processed_Article (text, D_Catid, Datecreated) ".
@@ -187,6 +192,9 @@ function fetch_processed_text($processed_id){
 		$result = mysqli_query($dbc, $query);
 		while ($row = mysqli_fetch_assoc($result)) {
 			$processingtext = $row['Text'];
+			$processingtext = str_replace('\\', '', $processingtext);
+			$processingtext = str_replace('\n', '', $processingtext);
+
 
 	}
 	mysqli_close($dbc);
@@ -195,7 +203,8 @@ function fetch_processed_text($processed_id){
 function update_processed_text($processed_id, $processingtext){
 	global $processed_id, $processingtext;	
 	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        $processingtext = mysqli_real_escape_string($dbc, $processingtext);
+//	below line commented ut as was adding unwanted '\' in html
+//        $processingtext = mysqli_real_escape_string($dbc, $processingtext);
 	$query = "UPDATE Processed_Article SET Text = '$processingtext' WHERE Pro_Art_id = $processed_id";
         mysqli_query($dbc, $query);
         mysqli_close($dbc);
