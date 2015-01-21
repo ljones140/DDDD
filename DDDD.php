@@ -46,39 +46,8 @@ if (isset($_GET['matches'])){
 }
 
 
-?>
 
-<!doctype html>
-
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-
-  <title>Deny, Disrupt, Degrade and Deceive</title>
-
- <link rel="stylesheet" type="text/css"  href="dddd.css"> 
-
-</head>
-<body>
-
-<?php
-
-echo '<div id="header">';
-if (!isset($dtype)){
-	echo '<h1>Deny, Disrupt, Degrade and Deceive</h1>';
-} else {
-
-	echo '<h1>' . $dtype . '</h1>'; 
-}
-echo '</div>'; 
-
-
-
-
-
-?>
-
-<?php
+require_once('header.php');
 
 
 //check to see if 1st time to the page if so diplay text ares to enter text 
