@@ -12,8 +12,51 @@ session_start();
  	 }
 
 
-require_once('header.php');
+?>
+<!doctype html>
 
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+  <title>Deny, Disrupt, Degrade and Deceive</title>
+
+ <link rel="stylesheet" type="text/css"  href="dddd.css">
+<script>
+function showDwords(str) {
+    if (str == "") {
+        document.getElementById("word_table").innerHTML = "";
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("word_table").innerHTML = xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("GET","wordtable.php?q="+str,true);
+        xmlhttp.send();
+    }
+}
+</script>
+
+
+
+</head>
+<body>
+
+<div id="header">
+	<h1>Deny, Disrupt, Degrade and Deceive</h1>
+</div>
+
+
+<?php
 
 	if (!isset($_SESSION['user_id'])) {
     		echo '<p>Please <a href="login.php">log in</a> to access this page.</p>';
@@ -47,35 +90,9 @@ require_once('header.php');
 			echo '<p>Your word is Empty Dummy!!!</p>';
 		}
 	}		
-?>
-
-	<h2>Enter New Words</h2>
-	<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-	<input type="text" name="Match">
-	<input type="text" name="Replace">
-	<select name="cat_id">
- 	<option value="1">Deny</option>
- 	<option value="2">Disrupt</option>
- 	<option value="3">Degrade</option>
- 	<option value="4">Decieve</option>
-	</select>
-	<select name ="replace_type">
-	<option value="1">Match Replace</option>
-        <option value="2">Sentence Replace</option>
-        </select>
-	<input type="submit">
-	</form>
 
 
-	//Build HTML Table
 
-	<h2>Select words to remove</h2>	
-	<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" id="todelete" >
-
-<?php
-
-
-	//SQL Change for delete/try moving the form above
 
 	if(isset($_POST['todelete'])){
 		$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -87,37 +104,24 @@ require_once('header.php');
 		mysqli_close($dbc);
 	}
 
-	//Continue to build table and think about pagination
 
-	$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-		$query = "select ".
-			"mr.match_term ".
-			",mr.replace_term ".
-			",dt.description ".
-			",mr.date_added ".
-			",mr.added_by ".
-			"from Match_Replacement mr ".
-			"inner join D_Category d ".
-			"on d.cat_id = mr.cat_id ".
-			"inner join Data_Type dt ".
-			"on dt.data_type_id = mr.data_type_id";
-
-
-
-        	$result = mysqli_query($dbc, $query);
-        	while ($row = mysqli_fetch_assoc($result)){
-			echo '<input type="checkbox" value="' . $row['match_term']. '"name="todelete[]"/>';
-			echo ' ' . $row['match_term'];
-			echo '<br />';
-        }
-	
-	mysqli_close($dbc);
 ?>
+	<form>
+	<select name="D_cat" onchange="showDwords(this.value)">
+  	<option value="">Select a D Type:</option>
+  	<option value="1">Deny</option>
+  	<option value="2">Disrupt</option>
+  	<option value="3">Degrade</option>
+  	<option value="4">Decieve</option>
+  	</select>
+	</form>
+	<br>
+	<div id="word_table"><b>Table Here</b></div>
+
 
 	
-		<input type="submit" name="submit" value="remove" />
 
-	//Table and pagination	
+
 		
 	</form>
 
