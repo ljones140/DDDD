@@ -14,8 +14,10 @@ table, td, th {
 
 th {text-align: left;}
 </style>
+
 </head>
 <body>
+
 
 
  <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" id="todelete" >
@@ -43,15 +45,15 @@ echo '<h2>' . $dtype . '</h2>';
 ?>
         <h2>Enter New Words</h2>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        <input type="text" name="Match">
+        <span id="Match" style="display:none;"><input type="text" name="Match"></span>
         <input type="text" name="Replace">
 <?php
 
 if ($catid == 3) {
 	echo '<label for="Find Replace">find replace</label>';
-        echo '<input type="radio" name="dtype" id="1" value="1">';
+        echo '<input type="radio" name="dtype"  value="1" checked  onclick="showhidediv(this);">';
 	echo '<label for="Sentence">Sentence</label>';
-        echo '<input type="radio" name="dtype" id="2" value="2">';
+        echo '<input type="radio" name="dtype"  value="2" onclick="showhidediv(this);">';
         echo '</select>';
 }
 ?>

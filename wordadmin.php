@@ -46,6 +46,15 @@ function showDwords(str) {
 }
 </script>
 
+<script language="JavaScript" type="text/javascript">
+	function showhidediv(rad){
+	var rads=document.getElementsByName(rad.name);
+	document.getElementById('Match').style.display=(rads[0].checked)?'block':'none' ;
+	document.getElementById('Match').style.display=(rads[1].checked)?'none':'block' ;
+
+}
+</script>
+
 
 
 </head>
