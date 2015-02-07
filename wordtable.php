@@ -45,15 +45,17 @@ echo '<h2>' . $dtype . '</h2>';
 ?>
         <h2>Enter New Words</h2>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        <span id="Match" style="display:none;"><input type="text" name="Match"></span>
+        <span id="Match"> 
+	<!--style="display:block;"> -->
+	<input type="text" name="Match"></span>
         <input type="text" name="Replace">
 <?php
 
 if ($catid == 3) {
 	echo '<label for="Find Replace">find replace</label>';
-        echo '<input type="radio" name="dtype"  value="1" checked  onclick="showhidediv(this);">';
+        echo '<input type="radio" name="dtype"  value="1" checked" onclick="showbox(this);"> ';
 	echo '<label for="Sentence">Sentence</label>';
-        echo '<input type="radio" name="dtype"  value="2" onclick="showhidediv(this);">';
+        echo '<input type="radio" name="dtype"  value="2" onclick="hidebox(this);">';
         echo '</select>';
 }
 ?>

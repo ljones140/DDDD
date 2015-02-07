@@ -47,12 +47,19 @@ function showDwords(str) {
 </script>
 
 <script language="JavaScript" type="text/javascript">
-	function showhidediv(rad){
-	var rads=document.getElementsByName(rad.name);
-	document.getElementById('Match').style.display=(rads[0].checked)?'block':'none' ;
-	document.getElementById('Match').style.display=(rads[1].checked)?'none':'block' ;
+	function hidebox(rad){
+		var rads=document.getElementsByName(rad.name);
+//		document.getElementById('Match').style.display=(rads[0].checked)?'block':'none' ;
+//		document.getElementById('Match').style.display=(rads[1].checked)?'none':'block' ;
+		document.getElementById('Match').style.display="none" ;
+	}
+        function showbox(rad){
+        	var rads=document.getElementsByName(rad.name);
+//      	document.getElementById('Match').style.display=(rads[0].checked)?'block':'none' ;
+//      	document.getElementById('Match').style.display=(rads[1].checked)?'none':'block' ;
+        	document.getElementById('Match').style.display="inline" ;
+	}
 
-}
 </script>
 
 
@@ -125,7 +132,7 @@ function showDwords(str) {
   	</select>
 	</form>
 	<br>
-	<div id="word_table"><b>Table Here</b></div>
+	<div id="word_table"></div>
 
 
 	
