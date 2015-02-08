@@ -65,6 +65,13 @@ fieldset {
     
 }
 
+.normform {
+	float: none;
+	left: 0px;
+	border: 0px;
+	margin-right: 10px;
+}
+
 .input {
     border-bottom: 1px;
     margin: 10px;
@@ -119,7 +126,7 @@ form.dddd-button {
     border: 0;	
 }
 
-a {
+.article a  {
    color: inherit;
    text-decoration: none;
 }
@@ -130,7 +137,29 @@ a {
    float: left;
    position: relative;
    margin-top: 20px;
-   margin-bottom: 50px
+   margin-bottom: 50px;
+   color: white;
+   text-decoration: none;	
 }	
 
-	
+.styled-button.start-again a {
+  color: inherit;
+  text-decoration: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+th {text-align: left;}
+
+
+.message {
+	margin-left: 20px;
+}	

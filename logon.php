@@ -23,7 +23,7 @@ require_once('connections.php');
           $_SESSION['username'] = $row['username'];
           setcookie('user_id', $row['user_id'], time() + (60 * 60 * 24 * 30));    // expires in 30 days
           setcookie('username', $row['username'], time() + (60 * 60 * 24 * 30));  // expires in 30 days
-          $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/dddd.php';
+          $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .'/wordadmin.php' ;
           header('Location: ' . $home_url);
         }
         else {
@@ -46,7 +46,7 @@ require_once('header.php');
     echo '<p>' . $error_msg . '</p>';
 ?>
 
-  <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+  <form method="post" class="normform"  action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <fieldset>
       <legend>Log In</legend>
       <label for="username">Username:</label>
@@ -61,7 +61,9 @@ require_once('header.php');
   }
   else {
     // Confirm the successful log-in
-    echo('<p>You are logged in as ' . $_SESSION['username'] . '.</p>');
+    	echo '<div class="message"> <p>You are logged in as ' . $_SESSION['username'] . '.</p>' ;
+	echo '<a href="/wordadmin.php">Word Admin</a>';
+	echo '</div>';	
   }
 ?>
 

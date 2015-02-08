@@ -76,11 +76,11 @@ function showDwords(str) {
 <?php
 
 	if (!isset($_SESSION['user_id'])) {
-    		echo '<p>Please <a href="login.php">log in</a> to access this page.</p>';
+    		echo '<div class="message"> <p>Please <a href="login.php">log in</a> to access this page.</p></div>';
     		exit();
   	}
 	else {
-    		echo('<p>You are logged in as ' . $_SESSION['username'] . '</p>');
+    		echo('<div class="message"><p>You are logged in as ' . $_SESSION['username'] . '</p></div>');
   	}
 	
 
@@ -110,12 +110,12 @@ function showDwords(str) {
 					"values ('$match', '$replace', $datatype, $catid, NOW(), '$user')";
 				mysqli_query($dbc, $query) or die ('Error Querying Database');
 			
-				echo '<p>New entry added </p>';
+				echo '<div class="message"><p>New entry added </p></div>';
 			}
 			mysqli_close($dbc);
 		}
 		else {
-			echo '<p>Your Missing something Dummy!!!</p>';
+			echo '<div class="message"><p>Your Missing something Dummy!!!</p></div>';
 		}
 	}		
 
@@ -128,7 +128,7 @@ function showDwords(str) {
 			$query = "DELETE FROM Match_Replacement WHERE match_id = $delete_id";
 			mysqli_query($dbc, $query) or die ('Error Querying Database');
 		}
-		echo '<p>All you want has been removed</p>';
+		echo '<div class="message"><p>All you want has been removed</p></div>';
 		mysqli_close($dbc);
 	}
 
@@ -154,15 +154,18 @@ function showDwords(str) {
 
 
 ?>
-	<form>
+	<form class="normform">
+	<fieldset>
+	<legend>Select Dtype</legend>
 	<select name="D_cat" onchange="showDwords(this.value)">
-<?php  (isset($dtype)) ? $option = $dtype : $option = 'Select a DType';
+<?php  (isset($dtype)) ? $option = $dtype : $option = '--select--';
 	echo  '<option value="'. $catiid .'">'. $option . '</option>'; ?>
   	<option value="1">Deny</option>
   	<option value="2">Disrupt</option>
   	<option value="3">Degrade</option>
   	<option value="4">Decieve</option>
   	</select>
+	</fieldset>
 	</form>
 	<br>
 	<div id="word_table"></div>

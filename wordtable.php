@@ -37,32 +37,37 @@ $catid = intval($_GET['q']);
 			break;
 	}
 
-echo '<h2>' . $dtype . '</h2>';
+//echo '<div class="message"> <h2>' . $dtype . '</h2></div>';
 ?>
-        <h2>Enter New Words</h2>
-        <form id="newMRenrty" method="post" action="/wordadmin.php">
-        <span id="Match"> 
-	<!--style="display:block;"> -->
+        <form class="normform" id="newMRenrty" method="post" action="/wordadmin.php">
+        <fieldset>
+<?php	echo "<legend>Enter New $dtype Entry</legend>"; ?>
+	<span id="Match"> 
+	<label for="Match">Match</label>
 	<input type="text" name="Match"></span>
+	<label for="Replace">Replacement</label>
         <input type="text" name="Replace">
-	<input type="hidden" name="catid" value="<?php echo $catid ?>">
+	<input type="hidden" name="catid" value="<?php echo $catid; ?>">
 <?php
 
 if ($catid == 3) {
 	echo '<label for="Find Replace">find replace</label>';
-        echo '<input type="radio" name="dtype"  value="1" checked" onclick="showbox(this);"> ';
+        echo '<input type="radio" name="dtype"  value="1" checked="checked" onclick="showbox(this);"> ';
 	echo '<label for="Sentence">Sentence</label>';
         echo '<input type="radio" name="dtype"  value="2" onclick="hidebox(this);">';
         echo '</select>';
 }
 ?>
         <input type="submit">
+	</fieldset>
         </form>
 
 
-<form method="post" action="/wordadmin.php" id="todelete" >
-<?php
+<form class = "normform" method="post" action="/wordadmin.php" id="todelete" >
+	<fieldset>
 
+<?php
+echo "<legend>View and remove $dtype entries</legend>";
 require_once('connections.php');
 
 
@@ -111,9 +116,9 @@ echo '</table>';
 ?>
 
 
-	<input type="hidden" name="catid" value="<?php echo $catid ?>">
+	<input type="hidden" name="catid" value="<?php echo $catid; ?>">
      	<input type="submit" name="submit" value="remove" />
-
+	</fieldset>
 </form>
 
 </body>
