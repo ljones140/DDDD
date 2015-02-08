@@ -49,19 +49,20 @@ function showDwords(str) {
 <script language="JavaScript" type="text/javascript">
 	function hidebox(rad){
 		var rads=document.getElementsByName(rad.name);
-//		document.getElementById('Match').style.display=(rads[0].checked)?'block':'none' ;
-//		document.getElementById('Match').style.display=(rads[1].checked)?'none':'block' ;
 		document.getElementById('Match').style.display="none" ;
 	}
         function showbox(rad){
         	var rads=document.getElementsByName(rad.name);
-//      	document.getElementById('Match').style.display=(rads[0].checked)?'block':'none' ;
-//      	document.getElementById('Match').style.display=(rads[1].checked)?'none':'block' ;
         	document.getElementById('Match').style.display="inline" ;
 	}
 
 </script>
-
+<?php
+	if (isset($_POST['catid'])){
+		$catid = $_POST['catid'];
+		echo '<script>showDwords("' . $catid . '" ); </script>';	
+	}
+?>
 
 
 </head>
@@ -85,25 +86,36 @@ function showDwords(str) {
 
 //SQL change Word Match Replacement, user and time. htmlspecialchars for inserted word
 
-	if(isset($_POST['newword'])){
+	if(isset($_POST['Replace'])){
 		$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-		$newword = mysqli_real_escape_string($dbc, $_POST['newword']);
-		if (!empty($newword)){
-			$query = "SELECT * FROM word where word = '$newword'";
+		if(isset($_POST['Match'])){
+			$match = htmlspecialchars($_POST['Match'], ENT_QUOTES);
+		//	$match = mysqli_real_escape_string($dbc, $match);
+		}else { $match = '';}
+		
+		$replace = htmlspecialchars($_POST['Replace'], ENT_QUOTES);
+               // $replace = mysqli_real_escape_string($dbc, $replace);
+		$catid   = $_POST['catid']; 
+		$datatype = isset($_POST['dtype']) ? $_POST['dtype'] : 1;
+		$user = $_SESSION['username'];
+		if ((!empty($match) && !empty($replace) && $datatype == 1)
+		 || (!empty($replace) && $datatype == 2)){
+			$query = "select * from Match_Replacement where Match_term = '$match'  and replace_term = '$replace' and data_type_id = $datatype and cat_id = $catid";
 			$result  = mysqli_query($dbc, $query);
 			if(mysqli_num_rows($result) > 0) {
-				echo '<h2>Word Already Exists</p>';
+				echo '<h2>Identical Record already exists</p>';
 			}
 			else {
-				$query = "INSERT INTO word (word) values ('$newword')";
+				$query = "INSERT INTO Match_Replacement (Match_term, replace_term, data_type_id, cat_id, Date_added, added_by) ".
+					"values ('$match', '$replace', $datatype, $catid, NOW(), '$user')";
 				mysqli_query($dbc, $query) or die ('Error Querying Database');
 			
-				echo '<p>New Word Added: ' . $newword . '</p>';
+				echo '<p>New entry added </p>';
 			}
 			mysqli_close($dbc);
 		}
 		else {
-			echo '<p>Your word is Empty Dummy!!!</p>';
+			echo '<p>Your Missing something Dummy!!!</p>';
 		}
 	}		
 
@@ -113,18 +125,39 @@ function showDwords(str) {
 	if(isset($_POST['todelete'])){
 		$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		foreach ($_POST['todelete'] as $delete_id){
-			$query = "DELETE FROM word WHERE wordid = $delete_id";
+			$query = "DELETE FROM Match_Replacement WHERE match_id = $delete_id";
 			mysqli_query($dbc, $query) or die ('Error Querying Database');
 		}
-		echo '<p>Words removed</p>';
+		echo '<p>All you want has been removed</p>';
 		mysqli_close($dbc);
 	}
+
+
+	if(isset($catid)){
+	        switch($catid) {
+                case 1:
+                        $dtype = 'Deny';
+                        break;
+                case 2:
+                        $dtype = 'Disrupt';
+                        break;
+                case 3:
+                        $dtype = 'Degrade';
+                        break;
+                case 4:
+                        $dtype = 'Deceive';
+                        break;
+       		 }	
+	}
+
+
 
 
 ?>
 	<form>
 	<select name="D_cat" onchange="showDwords(this.value)">
-  	<option value="">Select a D Type:</option>
+<?php  (isset($dtype)) ? $option = $dtype : $option = 'Select a DType';
+	echo  '<option value="'. $catiid .'">'. $option . '</option>'; ?>
   	<option value="1">Deny</option>
   	<option value="2">Disrupt</option>
   	<option value="3">Degrade</option>
@@ -133,13 +166,7 @@ function showDwords(str) {
 	</form>
 	<br>
 	<div id="word_table"></div>
-
-
 	
-
-
-		
-	</form>
 
 </body>
 </html>

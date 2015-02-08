@@ -18,10 +18,6 @@ th {text-align: left;}
 </head>
 <body>
 
-
-
- <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" id="todelete" >
-
 <?php
 
 $catid = intval($_GET['q']);
@@ -44,11 +40,12 @@ $catid = intval($_GET['q']);
 echo '<h2>' . $dtype . '</h2>';
 ?>
         <h2>Enter New Words</h2>
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <form id="newMRenrty" method="post" action="/wordadmin.php">
         <span id="Match"> 
 	<!--style="display:block;"> -->
 	<input type="text" name="Match"></span>
         <input type="text" name="Replace">
+	<input type="hidden" name="catid" value="<?php echo $catid ?>">
 <?php
 
 if ($catid == 3) {
@@ -63,6 +60,7 @@ if ($catid == 3) {
         </form>
 
 
+<form method="post" action="/wordadmin.php" id="todelete" >
 <?php
 
 require_once('connections.php');
@@ -81,7 +79,8 @@ echo '</tr>';
 
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 $query = "select ".
-                        "mr.match_term ".
+                        "mr.match_id ".
+			",mr.match_term ".
                         ",mr.replace_term ".
                         ",dt.description ".
                         ",mr.date_added ".
@@ -96,7 +95,7 @@ $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 $result = mysqli_query($dbc, $query);
                 while ($row = mysqli_fetch_assoc($result)){
                         echo '<tr>';
-			echo '<td><input type="checkbox" value="' . $row['match_term']. '"name="todelete[]"/></td>';	
+			echo '<td><input type="checkbox" value="' . $row['match_id']. '"name="todelete[]"/></td>';	
                         echo '<td>' . $row['match_term']   . '</td>' ;
                         echo '<td>' . $row['replace_term'] . '</td>' ;
                         echo '<td>' . $row['description']  . '</td>' ;
@@ -112,7 +111,8 @@ echo '</table>';
 ?>
 
 
-     <input type="submit" name="submit" value="remove" />
+	<input type="hidden" name="catid" value="<?php echo $catid ?>">
+     	<input type="submit" name="submit" value="remove" />
 
 </form>
 
